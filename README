@@ -7,5 +7,6 @@ Use opengl ES implements preview camera in background, read RGBA data from camer
 
 1. 使用Opengl 进行camera的预览。
 2. 使用opengl 读取camera的数据，camera数据的格式为RGBA。
+3. 支持camera的后台预览
 
 
