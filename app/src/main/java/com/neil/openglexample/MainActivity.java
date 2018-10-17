@@ -25,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
         EGLHelper eglHelper = new EGLHelper();
         TextureView textureView = findViewById(R.id.texture_view);
         ICameraInterface cameraInterface = CameraFactory.getCameraInterface(this);
-        cameraInterface.open(ICameraInterface.CAMERA_BACK);
+        cameraInterface.setPreviewSize(1280, 720);
+        cameraInterface.open(ICameraInterface.CAMERA_FRONT);
 
         CameraRender cameraRender = new CameraRender(this, cameraInterface, textureView);
         eglHelper.setRender(cameraRender);

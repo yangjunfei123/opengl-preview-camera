@@ -129,6 +129,8 @@ public class TextureViewRender {
 
     }
 
+    boolean first = false;
+
     public void render(int textureId, int width, int height) {
 
         if (!mTextureView.isAvailable()) {
@@ -147,11 +149,11 @@ public class TextureViewRender {
         mRenderEGL.makeCurrent();
         GLES20.glViewport(0, 0, mViewWidth, mViewHeight);
 
-//        if (!first) {
-//            first = true;
-//            BaseEGLUtils.adapterDisplayScreen(mViewWidth, mViewHeight, width, height, VERTEX, BaseEGLUtils.SCALE_TYPE_CENTER_CORP);
-//        }
-//        mVertexBuffer.put(VERTEX);
+        if (!first) {
+            first = true;
+            BaseEGLUtils.adapterDisplayScreen(mViewWidth, mViewHeight, width, height, VERTEX, BaseEGLUtils.SCALE_TYPE_CENTER_CORP);
+        }
+        mVertexBuffer.put(VERTEX);
 
         GLES20.glUseProgram(mProgram);
         mVertexBuffer.position(0);

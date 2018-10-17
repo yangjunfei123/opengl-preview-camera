@@ -27,6 +27,7 @@ public interface ICameraInterface {
     int getCameraWith();
     int getCameraHeight();
 
+    boolean isCamera2Api();
 
     void switchCamera();
 

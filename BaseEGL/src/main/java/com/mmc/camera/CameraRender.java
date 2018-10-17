@@ -70,15 +70,15 @@ public class CameraRender implements EGLHelper.EGLRender {
     @Override
     public void render() {
 
-
         mCameraPreviewTexture.updateTexImage();
         float[] matrix = new float[16];
         mCameraPreviewTexture.getTransformMatrix(matrix);
         mOesToTexture2D.setMatrix(matrix);
-        int texture = mOesToTexture2D.drawToTexture(mCameraTextureId, 0, false, false, mByteBuffer);
 
+        int rotateAngle = mCameraInterface.isCamera2Api() ? 0 : 270;
+        int texture = mOesToTexture2D.drawToTexture(mCameraTextureId, rotateAngle, false, false, mByteBuffer);
         if (mCameraDataListener != null) {
-            mCameraDataListener.onCameraDataAvailable(mByteBuffer,  mCameraInterface.getCameraHeight(), mCameraInterface.getCameraWith());
+            mCameraDataListener.onCameraDataAvailable(mByteBuffer,  mCameraInterface.getCameraWith(), mCameraInterface.getCameraHeight());
         }
 
         mTextureViewRender.render(texture, mCameraInterface.getCameraHeight(), mCameraInterface.getCameraWith());
