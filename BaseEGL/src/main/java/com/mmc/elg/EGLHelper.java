@@ -22,8 +22,8 @@ public class EGLHelper {
     private Handler mHandler;
     private BaseEGL mBaseEGL;
 
-    private int mWindowWidth;
-    private int mWindowHeight;
+    private int mWindowWidth = 10;
+    private int mWindowHeight = 10;
 
     public EGLHelper() {
     }
