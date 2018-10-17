@@ -10,7 +10,7 @@ public class CameraFactory {
 
     public static ICameraInterface getCameraInterface(Context context) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            return new CameraDevice(context);
+            return new Camera2Device(context);
         } else {
             return new CameraDevice(context);
         }
