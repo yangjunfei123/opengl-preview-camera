@@ -235,6 +235,8 @@ public class Camera2Device implements ICameraInterface{
             mCameraDevice.close();
             mCameraDevice = null;
         }
+
+
     }
 
     @Override

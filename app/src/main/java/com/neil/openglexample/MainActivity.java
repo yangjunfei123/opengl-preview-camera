@@ -21,10 +21,12 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
 
+    private EGLHelper eglHelper = null;
+    ICameraInterface cameraInterface;
     public void init() {
-        EGLHelper eglHelper = new EGLHelper();
+        eglHelper = new EGLHelper();
         TextureView textureView = findViewById(R.id.texture_view);
-        ICameraInterface cameraInterface = CameraFactory.getCameraInterface(this);
+        cameraInterface = CameraFactory.getCameraInterface(this);
         cameraInterface.setPreviewSize(1280, 720);
         cameraInterface.open(ICameraInterface.CAMERA_FRONT);
 
@@ -34,5 +36,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    @Override
+    protected void onDestroy() {
+        cameraInterface.close();
+        eglHelper.uninit();
+        super.onDestroy();
+    }
 }
