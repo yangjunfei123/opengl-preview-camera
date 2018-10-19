@@ -104,13 +104,19 @@ public class Camera2Device implements ICameraInterface{
     @Override
     public void startPreview() {
         try {
-
-            while (mCameraDevice == null) {
+            int maxtry = 10;
+            int tryTime = 0;
+            while (mCameraDevice == null && tryTime < maxtry) {
                 try {
                     Thread.sleep(100);
+                    tryTime++;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            }
+            if (mCameraDevice == null) {
+                Log.d(TAG, "Open camera failed.");
+                return;
             }
 
             final CaptureRequest.Builder builder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);

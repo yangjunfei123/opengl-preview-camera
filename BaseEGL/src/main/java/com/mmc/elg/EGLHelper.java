@@ -1,5 +1,6 @@
 package com.mmc.elg;
 
+import android.graphics.SurfaceTexture;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
@@ -25,8 +26,15 @@ public class EGLHelper {
     private int mWindowWidth = 10;
     private int mWindowHeight = 10;
 
+    private SurfaceTexture mSurfaceTexture;
+
     public EGLHelper() {
     }
+
+    public EGLHelper(SurfaceTexture surfaceTexture) {
+        mSurfaceTexture = surfaceTexture;
+    }
+
 
     public void init() {
         mHandlerThread = new HandlerThread("EGLHelper");
@@ -64,7 +72,11 @@ public class EGLHelper {
     private int doInit() {
         mBaseEGL = BaseEGLFactory.createBaseEGL();
         mBaseEGL.init(null, BaseEGL.SURFACE_PB_BUFFER);
-        mBaseEGL.createPbBufferSuface(mWindowWidth, mWindowHeight);
+        if (mSurfaceTexture != null) {
+            mBaseEGL.createEGLSuface(mSurfaceTexture);
+        } else {
+            mBaseEGL.createPbBufferSuface(mWindowWidth, mWindowHeight);
+        }
         mBaseEGL.makeCurrent();
         if (mRenderCallback != null) {
             mRenderCallback.onEGLInit(this);

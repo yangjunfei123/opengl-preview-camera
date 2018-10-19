@@ -47,29 +47,60 @@ public class BaseEGLUtils {
 
 
     public static int createOESTexture() {
-        int[] textureIds = new int[1];
-        GLES20.glGenTextures(1, textureIds, 0);
-
-        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textureIds[0]);
-        GLES20.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
-        GLES20.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
-        GLES20.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
-        GLES20.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
-        return textureIds[0];
+//        int[] textureIds = new int[1];
+//        GLES20.glGenTextures(1, textureIds, 0);
+//
+//        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textureIds[0]);
+//        GLES20.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+//        GLES20.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+//        GLES20.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+//        GLES20.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+        return createTexutre(TEXTURE_TYPE_OES);
     }
 
 
     public static int create2DTexture(int width, int height) {
-        int[] texture2D = new int[1];
-        GLES20.glGenTextures(1, texture2D, 0);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture2D[0]);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+//        int[] texture2D = new int[1];
+//        GLES20.glGenTextures(1, texture2D, 0);
+//        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture2D[0]);
+//        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+//        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+//        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+//        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+        int texture2D = createTexutre(TEXTURE_TYPE_2D);
         GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, width, height, 0, GLES20.GL_RGBA,
                 GLES20.GL_UNSIGNED_BYTE, null);
-        return texture2D[0];
+        return texture2D;
+    }
+
+    public static final int TEXTURE_TYPE_OES = 1;
+    public static final int TEXTURE_TYPE_2D = 2;
+    public static final int TEXTURE_TYPE_CUBE = 3;
+
+    public static int createTexutre(int type) {
+        int[] textureIds = new int[1];
+        GLES20.glGenTextures(1, textureIds, 0);
+
+        int textureType = GLES20.GL_TEXTURE_2D;
+
+        switch (type) {
+            case TEXTURE_TYPE_OES:
+                textureType = GLES11Ext.GL_TEXTURE_EXTERNAL_OES;
+                break;
+            case TEXTURE_TYPE_2D:
+                textureType = GLES20.GL_TEXTURE_2D;
+                break;
+            case TEXTURE_TYPE_CUBE:
+                textureType = GLES20.GL_TEXTURE_CUBE_MAP;
+                break;
+        }
+
+        GLES20.glBindTexture(textureType, textureIds[0]);
+        GLES20.glTexParameteri(textureType, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+        GLES20.glTexParameteri(textureType, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+        GLES20.glTexParameteri(textureType, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+        GLES20.glTexParameteri(textureType, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+        return textureIds[0];
     }
 
     public static void destroyTexture(int texture) {
